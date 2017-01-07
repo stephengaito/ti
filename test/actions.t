@@ -7,6 +7,7 @@ Running an unknown action
 
   $ ti almost-definitely-a-nonexistent-action
   I don't understand 'almost-definitely-a-nonexistent-action'
+  [1]
 
 Running an ambiguous action
 FIXME: There are no ambiguous to test this functionality!

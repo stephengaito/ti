@@ -20,7 +20,7 @@ Status after on-ing a task
 After adding tags
 
   $ ti tag awesome
-  Okay, tagged current work with 1 tags.
+  Okay, tagged current work with 1 tag.
   $ ti status
   You have been working on conqering-the-world for less than a minute.
 

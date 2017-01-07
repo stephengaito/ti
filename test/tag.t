@@ -16,3 +16,4 @@ Not giving a tag to add
   Start working on something.
   $ ti tag
   Please provide at least one tag to add.
+  [1]

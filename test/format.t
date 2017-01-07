@@ -35,6 +35,6 @@ Another one, with tags
   $ ti on yet-another-project
   Start working on yet-another-project.
   $ ti tag hella
-  Okay, tagged current work with 1 tags.
+  Okay, tagged current work with 1 tag.
   $ ti fin
   So you stopped working on yet-another-project.

@@ -43,6 +43,34 @@ import yaml
 from colorama import Fore
 
 
+class TIError(Exception):
+    """Errors raised by TI."""
+
+
+class AlreadyOn(TIError):
+    """Already working on that task."""
+
+
+class NoEditor(TIError):
+    """No $EDITOR set."""
+
+
+class InvalidYAML(TIError):
+    """No $EDITOR set."""
+
+
+class NoTask(TIError):
+    """Not working on a task yet."""
+
+
+class BadTime(TIError):
+    """Time string can't be parsed."""
+
+
+class BadArguments(TIError):
+    """The command line arguments passed are not valid."""
+
+
 class JsonStore(object):
 
     def __init__(self, filename):
@@ -97,9 +125,8 @@ def action_on(name, time):
     work = data['work']
 
     if work and 'end' not in work[-1]:
-        print('You are already working on ' + yellow(work[-1]['name']) +
-              '. Stop it or use a different sheet.', file=sys.stderr)
-        raise SystemExit(1)
+        raise AlreadyOn("You are already working on %s. Stop it or use a "
+                        "different sheet." % (yellow(work[-1]['name']),))
 
     entry = {
         'name': name,
@@ -179,16 +206,13 @@ def action_tag(tags):
 
     store.dump(data)
 
-    tag_count = str(len(tags))
-    print('Okay, tagged current work with ' + tag_count + ' tag' +
-          ('s' if tag_count > 1 else '') + '.')
+    tag_count = len(tags)
+    print("Okay, tagged current work with %d tag%s."
+          % (tag_count, "s" if tag_count > 1 else ""))
 
 
 def action_status():
-    try:
-        ensure_working()
-    except SystemExit(1):
-        return
+    ensure_working()
 
     data = store.load()
     current = data['work'][-1]
@@ -244,9 +268,8 @@ def action_log(period):
 
 
 def action_edit():
-    if 'EDITOR' not in os.environ:
-        print("Please set the 'EDITOR' environment variable", file=sys.stderr)
-        raise SystemExit(1)
+    if "EDITOR" not in os.environ:
+        raise NoEditor("Please set the 'EDITOR' environment variable")
 
     data = store.load()
     yml = yaml.safe_dump(data, default_flow_style=False, allow_unicode=True)
@@ -267,8 +290,7 @@ def action_edit():
     try:
         data = yaml.load(yml)
     except:
-        print("Oops, that YAML didn't appear to be valid!", file=sys.stderr)
-        raise SystemExit(1)
+        raise InvalidYAML("Oops, that YAML doesn't appear to be valid!")
 
     store.dump(data)
 
@@ -282,10 +304,9 @@ def ensure_working():
     if is_working():
         return
 
-    print("For all I know, you aren't working on anything. "
-          "I don't know what to do.", file=sys.stderr)
-    print('See `ti -h` to know how to start working.', file=sys.stderr)
-    raise SystemExit(1)
+    raise NoTask("For all I know, you aren't working on anything. "
+                 "I don't know what to do.\n"
+                 "See `ti -h` to know how to start working.")
 
 
 def to_datetime(timestr):
@@ -317,7 +338,7 @@ def parse_engtime(timestr):
         hours = 1 if n in ['a', 'an'] else int(n)
         return now - timedelta(hours=hours)
 
-    raise ValueError("Don't understand the time '" + timestr + "'")
+    raise BadTime("Don't understand the time %r" % (timestr,))
 
 
 def parse_isotime(isotime):
@@ -351,11 +372,6 @@ def timegap(start_time, end_time):
         return 'more than a year'
 
 
-def helpful_exit(msg=__doc__):
-    print(msg, file=sys.stderr)
-    raise SystemExit
-
-
 def parse_args(argv=sys.argv):
     global use_color
 
@@ -365,13 +381,13 @@ def parse_args(argv=sys.argv):
 
     # prog = argv[0]
     if len(argv) == 1:
-        helpful_exit('You must specify a command.')
+        raise BadArguments("You must specify a command.")
 
     head = argv[1]
     tail = argv[2:]
 
     if head in ['-h', '--help', 'h', 'help']:
-        helpful_exit()
+        raise BadArguments()
 
     elif head in ['e', 'edit']:
         fn = action_edit
@@ -379,7 +395,7 @@ def parse_args(argv=sys.argv):
 
     elif head in ['o', 'on']:
         if not tail:
-            helpful_exit('Need the name of whatever you are working on.')
+            raise BadArguments("Need the name of whatever you are working on.")
 
         fn = action_on
         args = {
@@ -401,21 +417,21 @@ def parse_args(argv=sys.argv):
 
     elif head in ['t', 'tag']:
         if not tail:
-            helpful_exit('Please provide at least one tag to add.')
+            raise BadArguments("Please provide at least one tag to add.")
 
         fn = action_tag
         args = {'tags': tail}
 
     elif head in ['n', 'note']:
         if not tail:
-            helpful_exit('Please provide some text to be noted.')
+            raise BadArguments("Please provide some text to be noted.")
 
         fn = action_note
         args = {'content': ' '.join(tail)}
 
     elif head in ['i', 'interrupt']:
         if not tail:
-            helpful_exit('Need the name of whatever you are working on.')
+            raise BadArguments("Need the name of whatever you are working on.")
 
         fn = action_interrupt
         args = {
@@ -424,14 +440,19 @@ def parse_args(argv=sys.argv):
         }
 
     else:
-        helpful_exit("I don't understand '" + head + "'")
+        raise BadArguments("I don't understand %r" % (head,))
 
     return fn, args
 
 
 def main():
-    fn, args = parse_args()
-    fn(**args)
+    try:
+        fn, args = parse_args()
+        fn(**args)
+    except TIError as e:
+        msg = str(e) if len(str(e)) > 0 else __doc__
+        print(msg, file=sys.stderr)
+        sys.exit(1)
 
 
 store = JsonStore(os.getenv('SHEET_FILE', None) or

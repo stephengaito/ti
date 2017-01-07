@@ -28,7 +28,7 @@ Fin a tagged activity
   $ ti on tagged-one
   Start working on tagged-one.
   $ ti tag woohoo
-  Okay, tagged current work with 1 tags.
+  Okay, tagged current work with 1 tag.
   $ ti fin
   So you stopped working on tagged-one.
 

@@ -27,3 +27,4 @@ FIXME: Need a better EDITOR to test with
 
   $ EDITOR="false" ti note
   Please provide some text to be noted.
+  [1]
