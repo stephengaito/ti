@@ -244,7 +244,7 @@ def action_log(period):
     for name, item in log.items():
         name_col_len = max(name_col_len, len(name))
 
-        secs = item['delta'].seconds
+        secs = item['delta'].total_seconds()
         tmsg = []
 
         if secs > 3600:
@@ -348,7 +348,7 @@ def parse_isotime(isotime):
 def timegap(start_time, end_time):
     diff = end_time - start_time
 
-    mins = diff.seconds / 60
+    mins = diff.total_seconds() / 60
 
     if mins == 0:
         return 'less than a minute'
