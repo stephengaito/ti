@@ -2,7 +2,7 @@
 ti -- A silly simple time tracker
 =================================
 
-``ti`` is a small command line time tracking application.
+``ti`` is a small command line time-tracking application.
 Simple basic usage looks like this::
 
     $ ti on my-project
@@ -17,34 +17,36 @@ You can also give it human-readable times::
 Wat?
 ====
 
-``ti`` is a simple command line time tracker. It has been completely re-written in
-python (from being a bash script) and has (almost) complete test coverage. It is
-inspired by `timed <http://adeel.github.com/timed>`_, which is a nice project
-and you should check out if you don't like ``ti``. It also takes inspiration from
-the simplicity of `t <http://stevelosh.com/projects/t/>`_.
+``ti`` is a simple command line time tracker. It has been completely rewritten
+in Python (originally a bash script) and has (almost) complete test coverage. It
+is inspired by `timed <http://adeel.github.com/timed>`_, which is a nice project
+that you should check out if you don't like ``ti``. ``ti`` also takes
+inspiration from the simplicity of `t <http://stevelosh.com/projects/t/>`_.
 
-If a time tracking tool makes me think for more than 3-5 seconds, I lose my line
-of thought and forget what I was doing. This is why I created ``ti``. With ``ti``,
-you'll be as fast as you can type, which you should be good with anyway.
+If a time-tracking tool makes me think for more than 3-5 seconds, I lose my line
+of thought and forget what I was doing. This is why I created ``ti``. With
+``ti``, you'll be as fast as you can type, which you should be good with anyway.
 
-The most important part about ``ti`` is that it
-provides just a few commands to manage your time tracking and gets out
-of your way. All data is saved in a JSON file (``~/.ti-sheet``, can be changed by
-setting ``$SHEET_FILE``) for easy access to whatever you need to do. Some ideas,
+The most important part about ``ti`` is that it provides just a few commands to
+manage your time-tracking and then gets out of your way.
 
-- Read your JSON file to generate beautiful html reports.
-- Build monthly statistics based on tags or the tasks themselves.
-- Read the currently working project and make it show up in your terminal
-  prompt. Maybe even with how long you've been on it. (!!!)
+All data is saved in a JSON file ,``~/.ti-sheet``. (This can be changed using the
+``$SHEET_FILE``  environment variable.) The JSON is easy to access and can be
+processed into other more stylized documents. Some ideas:
+
+- Read your JSON file to generate beautiful HTML reports.
+- Build monthly statistics based on tags or tasks.
+- Read your currently working project and display it in your terminal prompt.
+  Maybe even with the number of hours you've been working.
 
 It's *your* data.
 
-Oh and by the way, the source is a fairly small python script, so if you know
-python, you may want to skim over it to get a better feel of how it works.
+Oh and by the way, the source is a fairly small Python script, so if you know
+Python, you may want to skim over it to get a better feel of how it works.
 
 *Note*: If you have used the previous bash version of ``ti``, which was horribly
-tied up to only work on linux, you might notice the lack of *plugins* in this
-python version. I am not really missing them, so I might not add them. If anyone
+tied up to only work on Linux, you might notice the lack of plugins in this
+Python version. I am not really missing them, so I might not add them. If anyone
 has any interesting use cases for it, I'm willing to consider.
 
 Usage
@@ -61,8 +63,8 @@ Here's the minimal usage style::
     $ ti fin
     So you stopped working on my-project.
 
-``on`` and ``fin`` can take a time (format described further down) at which to apply
-the action::
+``on`` and ``fin`` can take a time (format described further down) at which to
+apply the action::
 
     $ ti on another-project 2 hours ago
     Start working on another-project.
@@ -119,8 +121,8 @@ The format of the time is detailed further below.
 - Short: ``f``
 - Syntax: ``ti (f|fin) [<time>...]``
 
-End tracking for the current activity *now*. Just like with ``on`` command above,
-you can give an optional time to the past. Example::
+End tracking for the current activity *now*. Just like with ``on`` command
+above, you can give an optional time to the past. Example::
 
     ti fin 10mins ago
 
@@ -133,7 +135,7 @@ minutes ago.
 - Short: ``s``
 - Syntax: ``ti (s|status)``
 
-Gives short human readable message on the current status, i.e., whether anything
+Gives short human-readable message on the current status, i.e., whether anything
 is being tracked currently or not. Example::
 
     $ ti on conqering-the-world
@@ -148,19 +150,19 @@ is being tracked currently or not. Example::
 - Syntax: ``ti (t|tag) <tag>...``
 
 This command adds the given tags to the current activity. Tags are not currently
-used within the ``ti`` time tracker, but they will be saved in the JSON data file.
-You may use them for whatever purposes you like.
+used within the ``ti`` time tracker, but they will be saved in the JSON data
+file. You may use them for whatever purposes you like.
 
-For example, if you have a script to generate a html report from your ``ti`` data,
-you could tag some activities with a tag like ``red`` or ``important`` so that that
-activity will appear in red in the final html report.
+For example, if you have a script to generate a HTML report from your ``ti``
+data, you could tag some activities with a tag like ``red`` or ``important`` so
+that activity will appear in red in the final HTML report.
 
 Use it like::
 
     ti tag red for-joe
 
-adds the tags ``red`` and ``for-joe`` to the current activitiy. You can specify any
-number of tags.
+adds the tags ``red`` and ``for-joe`` to the current activitiy. You can specify
+any number of tags.
 
 Tags are currently for your purpose. Use them as you see fit.
 
@@ -227,32 +229,32 @@ time unit are allowed (including zero spaces).
 Status
 ======
 
-The project is beta. If you find any bug or have any feedback, please do open an
-issue on `Github issues <https://github.com/sharat87/ti/issues>`_.
+The project is in beta. If you find any bug or have any feedback, please do open
+`a GitHub issue <https://github.com/tbekolay/ti/issues>`_.
 
 
 Gimme!
 ======
 
-You can download ``ti``
-`from the source on Github <https://raw.github.com/sharat87/ti/master/bin/ti>`_.
+You can download ``ti`` `from the source on
+GitHub <https://raw.github.com/tbekolay/ti/master/bin/ti>`_.
 
 - Put it somewhere in your ``$PATH`` and make sure it has executable permissions.
-- Install pyyaml using the command ``pip install --user pyyaml``.
-- Install colorama using the command ``pip install --user colorama``.
+- Install ``pyyaml`` using the command ``pip install --user pyyaml``.
+- Install ``colorama`` using the command ``pip install --user colorama``.
 
 After that, ``ti`` should be working fine.
 
-Also, visit the `project page on Github <https://github.com/sharat87/ti>`_ for any
-further details.
+Also, visit the `project page on GitHub <https://github.com/tbekolay/ti>`_ for
+any further details.
 
 Who?
 ====
 
-Created and fed by Shrikant Sharat
+Originally created and fed by Shrikant Sharat
 (`@sharat87 <https://twitter.com/#!sharat87>`_).
-To get in touch, ping me on twitter or
-`email <mailto:shrikantsharat.k@gmail.com>`_.
+Now forked and maintained by Trevor Bekolay
+(`@tbekolay <https://github.com/tbekolay>`_) and friends on GitHub.
 
 License
 =======
