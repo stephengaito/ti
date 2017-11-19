@@ -266,12 +266,12 @@ def action_log(period):
         tmsg = []
 
         if secs > 3600:
-            hours = int(secs / 3600)
+            hours = int(secs // 3600)
             secs -= hours * 3600
             tmsg.append(str(hours) + ' hour' + ('s' if hours > 1 else ''))
 
         if secs > 60:
-            mins = int(secs / 60)
+            mins = int(secs // 60)
             secs -= mins * 60
             tmsg.append(str(mins) + ' minute' + ('s' if mins > 1 else ''))
 
@@ -366,7 +366,7 @@ def parse_isotime(isotime):
 def timegap(start_time, end_time):
     diff = end_time - start_time
 
-    mins = diff.total_seconds() / 60
+    mins = diff.total_seconds() // 60
 
     if mins == 0:
         return 'less than a minute'
@@ -377,15 +377,15 @@ def timegap(start_time, end_time):
     elif mins < 89:
         return 'about an hour'
     elif mins < 1439:
-        return 'about {} hours'.format(mins / 60)
+        return 'about {} hours'.format(mins // 60)
     elif mins < 2519:
         return 'about a day'
     elif mins < 43199:
-        return 'about {} days'.format(mins / 1440)
+        return 'about {} days'.format(mins // 1440)
     elif mins < 86399:
         return 'about a month'
     elif mins < 525599:
-        return 'about {} months'.format(mins / 43200)
+        return 'about {} months'.format(mins // 43200)
     else:
         return 'more than a year'
 
