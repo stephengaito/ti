@@ -19,7 +19,7 @@ testing = bool({"pytest", "test"}.intersection(sys.argv))
 
 setup(
     name="ti",
-    version="0.1.2",
+    version="0.1.3.dev0",
     author="Shrikant Sharat & Trevor Bekolay",
     author_email="tbekolay@gmail.com",
     packages=find_packages(),
