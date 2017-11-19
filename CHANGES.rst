@@ -18,10 +18,10 @@ Release History
    - Removed
    - Fixed
 
-0.1.2 (unreleased)
-==================
+0.1.2 (November 19, 2017)
+=========================
 
-
+This release fixes several Python 3.6 compatibility bugs.
 
 0.1.1 (January 7, 2017)
 =======================
