@@ -80,7 +80,7 @@ class JsonStore(object):
         yearDir =  datetime.now().strftime("%Y")
         sheetDir = os.path.join(sheetDir, yearDir)
         self.sheetDir = sheetDir
-        os.makedirs(sheetDir)
+        os.makedirs(sheetDir, exist_ok=True)
 
         # now compute the correct sheet file
         filename = datetime.now().strftime("ti_%Y_w%V.json")
