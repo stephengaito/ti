@@ -292,7 +292,7 @@ def action_log(period):
             tmsg.append(str(mins) + ' minute' + ('s' if mins > 1 else ''))
 
         if secs:
-            tmsg.append(str(secs) + ' second' + ('s' if secs > 1 else ''))
+            tmsg.append(str(round(secs)) + ' second' + ('s' if secs > 1 else ''))
 
         log[name]['tmsg'] = ', '.join(tmsg)[::-1].replace(',', '& ', 1)[::-1]
 
