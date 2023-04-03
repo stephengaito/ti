@@ -12,6 +12,10 @@ We add:
 - A `c|change` (task) function to automatically stop the previous task and start
   a new one.
 
+- Fix the edit function
+
+- Fix the log function to only report whole seconds
+
 Everything else is the same as:
 
 =================================
