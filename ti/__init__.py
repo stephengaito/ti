@@ -349,9 +349,18 @@ def to_datetime(timestr):
 
 def parse_engtime(timestr):
 
-    now = datetime.utcnow()
+    now = datetime.now()
     if not timestr or timestr.strip() == 'now':
         return now
+
+    match = re.match(r'at \s* (\d+):(\d+) \s* $',
+                     timestr, re.X)
+    if match is not None:
+        hoursStr  = match.group(1)
+        minuesStr = match.group(2)
+        aTime = time(hours=int(hoursStr), minutes=int(minutesStr))
+        today = date.today()
+        return datetime.combine(today, aTime)
 
     match = re.match(r'(\d+|a) \s* (s|secs?|seconds?) \s+ ago $',
                      timestr, re.X)
