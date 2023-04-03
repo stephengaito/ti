@@ -340,11 +340,11 @@ def parse_engtime(timestr):
     match = re.match(r'at \s* (\d+):(\d+) \s* $',
                      timestr, re.X)
     if match is not None:
-        hoursStr  = match.group(1)
-        minuesStr = match.group(2)
-        aTime = time(hours=int(hoursStr), minutes=int(minutesStr))
+        hoursStr   = match.group(1)
+        minutesStr = match.group(2)
+        atTime = time(hours=int(hoursStr), minutes=int(minutesStr))
         today = date.today()
-        return datetime.combine(today, aTime)
+        return datetime.combine(today, atTime)
 
     match = re.match(r'(\d+|a) \s* (s|secs?|seconds?) \s+ ago $',
                      timestr, re.X)
