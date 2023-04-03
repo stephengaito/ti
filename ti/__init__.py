@@ -7,6 +7,7 @@ project page (http://ti.sharats.me) for more details.
 Usage:
   ti (o|on) <name> [<time>...]
   ti (f|fin) [<time>...]
+  ti (c|change) <name> [<time>...]
   ti (s|status)
   ti (t|tag) <tag>...
   ti (n|note) <note-text>...
