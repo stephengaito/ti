@@ -338,8 +338,7 @@ def parse_engtime(timestr):
     if roundMinutes :
         roundMinutes = int(roundMinutes)
         roundedMinute = round(now.minute / roundMinutes) * roundMinutes
-        print(f"roundedMinute: {roundedMinute}")
-        now.replace(minute=0, second=0, microsecond=0)
+        now = now.replace(minute=0, second=0, microsecond=0)
         now = now + timedelta(minutes=roundedMinute)
     if not timestr or timestr.strip() == 'now':
         return now
