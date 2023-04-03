@@ -177,6 +177,11 @@ def action_fin(time, back_from_interrupt=True):
         else:
             print('Congrats, you\'re out of interrupts!')
 
+def action_change(name, time, back_from_interrupt=True):
+    ensure_working()
+
+    action_fin(time, back_from_interrupt)
+    action_on(name, time)
 
 def action_interrupt(name, time):
     ensure_working()
@@ -423,6 +428,13 @@ def parse_args(argv=sys.argv):
 
     elif head in ['f', 'fin']:
         fn = action_fin
+        args = {'time': to_datetime(' '.join(tail))}
+
+    elif head in ['c', 'change']:
+        if not tail:
+            raise BadArguments("Need the name of whatever you are changing to.")
+
+        fn = action_change
         args = {'time': to_datetime(' '.join(tail))}
 
     elif head in ['s', 'status']:
