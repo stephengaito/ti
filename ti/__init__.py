@@ -351,6 +351,7 @@ def parse_engtime(timestr):
     now = datetime.now().replace(microsecond=0)
     roundMinutes = os.getenv("TI_ROUND_MIN", None)
     if roundMinutes :
+        roundMinutes = int(roundMinutes)
         roundedMinute = round(now.minute / roundMinutes) * roundMinutes
         now.replace(minute=0, second=0, microsecond=0)
         now = now + timedelta(minutes=roundedMinute)
