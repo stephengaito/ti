@@ -1,3 +1,19 @@
+===========================
+An un-official update of ti
+===========================
+
+This `working` branch provides a simple un-official update of `ti` for my needs.
+
+We add:
+
+- Weeky time sheets in a configurable time-sheet directory organized by year and
+  week number.
+
+- A `c|change` (task) function to automatically stop the previous task and start
+  a new one.
+
+Everything else is the same as:
+
 =================================
 ti -- A silly simple time tracker
 =================================
