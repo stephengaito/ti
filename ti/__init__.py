@@ -73,8 +73,18 @@ class BadArguments(TIError):
 
 class JsonStore(object):
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, sheetDir):
+
+        # setup the sheet directory ("rootDir" + year) and ensure it exists
+        sheetDir = os.path.abspath(sheetDir)
+        yearDir =  datetime.now().strftime("%Y")
+        sheetDir = os.path.join(sheetDir, yearDir)
+        self.sheetDir = sheetDir
+        os.makedirs(sheetDir)
+
+        # now compute the correct sheet file
+        filename = datetime.now().strftime("ti_%Y_w%V.json")
+        self.filename = os.path.join(sheetDir, filename)
 
     def load(self):
 
@@ -473,8 +483,8 @@ def main():
         sys.exit(1)
 
 
-store = JsonStore(os.getenv('SHEET_FILE', None) or
-                  os.path.expanduser('~/.ti-sheet'))
+store = JsonStore(os.getenv('TI_SHEET_DIR', None) or
+                  os.path.expanduser('~/.ti-sheets'))
 use_color = True
 
 if __name__ == '__main__':
