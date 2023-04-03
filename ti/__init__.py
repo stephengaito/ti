@@ -446,7 +446,10 @@ def parse_args(argv=sys.argv):
             raise BadArguments("Need the name of whatever you are changing to.")
 
         fn = action_change
-        args = {'time': to_datetime(' '.join(tail))}
+        args = {
+            'name': tail[0],
+            'time': to_datetime(' '.join(tail[1:]))
+        }
 
     elif head in ['s', 'status']:
         fn = action_status
