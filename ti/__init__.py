@@ -358,7 +358,7 @@ def parse_engtime(timestr):
     if match is not None:
         hoursStr   = match.group(1)
         minutesStr = match.group(2)
-        atTime = time(hours=int(hoursStr), minutes=int(minutesStr))
+        atTime = time(hour=int(hoursStr), minute=int(minutesStr))
         today = date.today()
         return datetime.combine(today, atTime)
 
