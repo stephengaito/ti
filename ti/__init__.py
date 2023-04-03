@@ -322,7 +322,7 @@ def action_edit():
     os.remove(temp_path)
 
     try:
-        data = yaml.load(yml)
+        data = yaml.safe_load(yml)
     except:
         raise InvalidYAML("Oops, that YAML doesn't appear to be valid!")
 
