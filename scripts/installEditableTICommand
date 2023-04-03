@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This bash script uses the current working directory to create a simple
+# script to run the ti command anywhere in a user's
+# workspace.
+
+cmdScript=$(pwd)/.venv/bin/ti
+
+cat << CMD_SCRIPT > $HOME/.local/bin/ti
+#!/bin/sh
+
+# This shell script was created by the TI tool
+#       './scripts/installEditableTICommand'
+# script.
+
+exec $cmdScript \$@
+CMD_SCRIPT
+
+chmod a+x $HOME/.local/bin/ti
+
+echo ""
+echo "Editable ti command has been created"
+echo ""
