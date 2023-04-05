@@ -11,6 +11,7 @@ Usage:
   ti (t|tag) <tag>...
   ti (n|note) <note-text>...
   ti (l|log) [today]
+  ti (hl{<blank>,1,2,3,4}) [<hledgeParams>]
   ti (e|edit)
   ti (i|interrupt)
   ti --no-color
@@ -284,6 +285,34 @@ def action_log(period):
         print(ljust_with_color(name, name_col_len), ' ∙∙ ', item['tmsg'],
               end=' ← working\n' if current == name else '\n')
 
+# adapted from https://github.com/MatthiasKauer/tim.git using MIT license
+def action_hledger(param):
+    print("hledger param", param)
+    data = store.load()
+    work = data['work']
+
+    hlfile = tempfile.NamedTemporaryFile(mode='w', delete=False)
+    hlfname = hlfile.name
+    print(f"hledger file: {hlfname}")
+    # hlfname = os.path.expanduser('~/.tim.hledger')
+    #hlfname = os.path.join( store.cfg.get('tim', 'folder'), '.tim.hledger-temp')
+    #hlfile = open(hlfname, 'w')
+
+    for item in work:
+        if 'end' in item:
+            str_on = "i %s %s" % (parse_isotime(item['start']), item['name'])
+            str_off = "o %s" % (parse_isotime(item['end']))
+            # print(str_on + "\n" + str_off)
+
+            hlfile.write(str_on + "\n")
+            hlfile.write(str_off + "\n")
+            #  hlfile.write("\n")
+
+    hlfile.close()
+
+    cmd_list = ['hledger'] + ['-f'] + [hlfname] + param
+    print("ti executes: " + " ".join(cmd_list))
+    subprocess.call(cmd_list) 
 
 def action_edit():
     if "EDITOR" not in os.environ:
@@ -432,6 +461,29 @@ def parse_args(argv=sys.argv):
     elif head in ['l', 'log']:
         fn = action_log
         args = {'period': tail[0] if tail else None}
+
+    # hl, hl1, hl2, hl3, hl4 adapted from
+    # https://github.com/MatthiasKauer/tim.git using MIT license
+
+    elif head in ['hl', 'hledger']:
+        fn = action_hledger
+        args = {'param': tail}
+
+    elif head in ['hl1']:
+        fn = action_hledger
+        args = {'param': ['balance', '--daily','--begin', 'today'] + tail}
+    
+    elif head in ['hl2']:
+        fn = action_hledger
+        args = {'param': ['balance', '--daily','--begin', 'this week'] + tail}
+
+    elif head in ['hl3']:
+        fn = action_hledger
+        args = {'param': ['balance', '--weekly','--begin', 'this month'] + tail}
+
+    elif head in ['hl4']:
+        fn = action_hledger
+        args = {'param': ['balance', '--monthly','--begin', 'this year'] + tail}
 
     elif head in ['t', 'tag']:
         if not tail:
