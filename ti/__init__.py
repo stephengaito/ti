@@ -307,7 +307,9 @@ def action_hledger(param):
     data = store.load()
     work = data['work']
 
-    hlfile = tempfile.NamedTemporaryFile(mode='w', delete=False)
+    hlfile = tempfile.NamedTemporaryFile(
+        mode='w', delete=False, suffix='.timeclock'
+    )
     hlfname = hlfile.name
     print(f"hledger file: {hlfname}")
     # hlfname = os.path.expanduser('~/.tim.hledger')
