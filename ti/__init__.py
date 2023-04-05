@@ -28,6 +28,7 @@ Options:
   <hledger-params>  Any hledger timeclock based commands
 
 Notes:
+  hl                "roll your own"
   hl1               Report today
   hl2               Report this week
   hl3               Report this month
@@ -294,7 +295,7 @@ def action_log(period):
 
 # adapted from https://github.com/MatthiasKauer/tim.git using MIT license
 def action_hledger(param):
-    print("hledger param", param)
+    # print("hledger param", param)
     data = store.load()
     work = data['work']
 
@@ -302,10 +303,7 @@ def action_hledger(param):
         mode='w', delete=False, suffix='.timeclock'
     )
     hlfname = hlfile.name
-    print(f"hledger file: {hlfname}")
-    # hlfname = os.path.expanduser('~/.tim.hledger')
-    #hlfname = os.path.join( store.cfg.get('tim', 'folder'), '.tim.hledger-temp')
-    #hlfile = open(hlfname, 'w')
+    # print(f"hledger file: {hlfname}")
 
     for item in work:
         if 'end' in item:
@@ -320,8 +318,9 @@ def action_hledger(param):
     hlfile.close()
 
     cmd_list = ['hledger'] + ['-f'] + [hlfname] + param
-    print("ti executes: " + " ".join(cmd_list))
+    # print("ti executes: " + " ".join(cmd_list))
     subprocess.call(cmd_list) 
+    os.remove(hlfname)
 
 def action_edit():
     if "EDITOR" not in os.environ:
