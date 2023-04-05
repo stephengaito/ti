@@ -25,6 +25,13 @@ Options:
                     idea to avoid whitespace.
   <note-text>...    Some arbitrary text to be added as `notes` to the currently
                     working project.
+  <hledger-params>  Any hledger timeclock based commands
+
+Notes:
+  hl1               Report today
+  hl2               Report this week
+  hl3               Report this month
+  hl4               Report this year
 """
 
 from __future__ import print_function
