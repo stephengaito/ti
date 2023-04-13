@@ -12,7 +12,7 @@ Usage:
   ti (t|tag) <tag>...
   ti (n|note) <note-text>...
   ti (l|log) [today]
-  ti (hl{<blank>,1,2,3,4}) [<hledgeParams>]
+  ti (hl{<blank>,1,2,3,4,w}) [<hledgeParams>]
   ti (e|edit)
   ti (i|interrupt)
   ti --no-color
@@ -34,6 +34,7 @@ Notes:
   hl2               Report this week
   hl3               Report this month
   hl4               Report this year
+  hlw               Report work done for both this week and month 
 """
 
 from __future__ import print_function
@@ -338,6 +339,10 @@ def action_hledger(param):
     subprocess.call(cmd_list) 
     os.remove(hlfname)
 
+def action_combined_hledger(param) :
+    action_hledger(['balance', '--daily',  '--begin', 'this week',  'work'] + param)
+    action_hledger(['balance', '--weekly', '--begin', 'this month', 'work'] + param)
+
 def action_edit():
     if "EDITOR" not in os.environ:
         raise NoEditor("Please set the 'EDITOR' environment variable")
@@ -534,6 +539,10 @@ def parse_args(argv=sys.argv):
     elif head in ['hl4']:
         fn = action_hledger
         args = {'param': ['balance', '--monthly','--begin', 'this year'] + tail}
+
+    elif head in ['hlw']:
+        fn = action_combined_hledger
+        args = {'param': tail}
 
     elif head in ['t', 'tag']:
         if not tail:
