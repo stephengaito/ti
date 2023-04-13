@@ -261,11 +261,11 @@ def action_status():
     current = data['work'][-1]
 
     start_time = parse_isotime(current['start'])
-    diff = timegap(start_time, datetime.utcnow())
+    diff = timegap(start_time, datetime.now())
 
-    print('You have been working on {0} for {1}.'.format(
+    print('You have been working on {0} for {1},'.format(
         green(current['name']), diff))
-
+    print("  since {0}.".format(start_time))
 
 def action_log(period):
     data = store.load()
@@ -279,7 +279,7 @@ def action_log(period):
             log[item['name']]['delta'] += (
                 parse_isotime(item['end']) - start_time)
         else:
-            log[item['name']]['delta'] += datetime.utcnow() - start_time
+            log[item['name']]['delta'] += datetime.now() - start_time
             current = item['name']
 
     name_col_len = 0
