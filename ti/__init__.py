@@ -341,6 +341,7 @@ def action_hledger(param):
 
 def action_combined_hledger(param) :
     action_hledger(['balance', '--daily',  '--begin', 'this week',  'work'] + param)
+    print("")
     action_hledger(['balance', '--weekly', '--begin', 'this month', 'work'] + param)
 
 def action_edit():
