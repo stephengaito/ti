@@ -14,6 +14,7 @@ Usage:
   ti (l|log) [today]
   ti (hl{<blank>,1,2,3,4,w}) [<hledgeParams>]
   ti (e|edit)
+  ti (p|pager)
   ti (i|interrupt)
   ti --no-color
   ti -h | --help
@@ -372,6 +373,28 @@ def action_edit():
     store.dump(data)
 
 
+def action_pager():
+    cmd = 'less'
+    if "PAGER" in os.environ:
+        cmd = os.getenv('PAGER')
+    #else : 
+        #raise NoEditor("Please set the 'PAGER' environment variable")   
+
+    data = store.load()
+    yml = yaml.safe_dump(data, default_flow_style=False, allow_unicode=True)
+
+    fd, temp_path = tempfile.mkstemp(prefix='ti.')
+    with open(temp_path, "r+") as f:
+        f.write(yml.replace('\n- ', '\n\n- '))
+        f.seek(0)
+        subprocess.check_call(cmd + ' +G ' + temp_path, shell=True)
+        yml = f.read()
+        f.truncate()
+        f.close
+
+    os.close(fd)
+    os.remove(temp_path)
+
 def is_working():
     data = store.load()
     return data.get('work') and 'end' not in data['work'][-1]
@@ -484,6 +507,10 @@ def parse_args(argv=sys.argv):
 
     elif head in ['e', 'edit']:
         fn = action_edit
+        args = {}
+    
+    elif head in ['p', 'pager'] :
+        fn = action_pager
         args = {}
 
     elif head in ['o', 'on']:
