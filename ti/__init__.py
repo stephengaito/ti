@@ -35,7 +35,7 @@ Notes:
   hl2               Report this week
   hl3               Report this month
   hl4               Report this year
-  hlw               Report work done for both this week and month 
+  hlw               Report work done for both this week and month
 """
 
 from __future__ import print_function
@@ -337,13 +337,13 @@ def action_hledger(param):
 
     cmd_list = ['hledger'] + ['-f'] + [hlfname] + param
     # print("ti executes: " + " ".join(cmd_list))
-    subprocess.call(cmd_list) 
+    subprocess.call(cmd_list)
     os.remove(hlfname)
 
 def action_combined_hledger(param) :
-    action_hledger(['balance', '--daily',  '--begin', 'this week',  'work'] + param)
+    action_hledger(['balance', '--daily',  '--begin', 'this week'] + param)
     print("")
-    action_hledger(['balance', '--weekly', '--begin', 'this month', 'work'] + param)
+    action_hledger(['balance', '--weekly', '--begin', 'this month'] + param)
 
 def action_edit():
     if "EDITOR" not in os.environ:
@@ -377,8 +377,8 @@ def action_pager():
     cmd = 'less'
     if "PAGER" in os.environ:
         cmd = os.getenv('PAGER')
-    #else : 
-        #raise NoEditor("Please set the 'PAGER' environment variable")   
+    #else :
+        #raise NoEditor("Please set the 'PAGER' environment variable")
 
     data = store.load()
     yml = yaml.safe_dump(data, default_flow_style=False, allow_unicode=True)
@@ -508,7 +508,7 @@ def parse_args(argv=sys.argv):
     elif head in ['e', 'edit']:
         fn = action_edit
         args = {}
-    
+
     elif head in ['p', 'pager'] :
         fn = action_pager
         args = {}
@@ -555,7 +555,7 @@ def parse_args(argv=sys.argv):
     elif head in ['hl1']:
         fn = action_hledger
         args = {'param': ['balance', '--daily','--begin', 'today'] + tail}
-    
+
     elif head in ['hl2']:
         fn = action_hledger
         args = {'param': ['balance', '--daily','--begin', 'this week'] + tail}
